@@ -26,7 +26,7 @@ export class ImagesService {
     return this.$search.asObservable();
   }
 
-  getImages(search: string): Observable<any>{
+  getImages(search: string): Observable<ImageI[]>{
     const URL = `${URL_BASE}?key=${KEY}&q=${search}`;
     return this._http.get(URL)
       .pipe(

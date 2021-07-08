@@ -13,6 +13,7 @@ export class ListImagesComponent implements OnDestroy {
   public subcription = new Subscription();
   public isLoading: boolean = false;
   public listImages: ImageI[] = [];
+  public msg = '';
 
   constructor(private _service: ImagesService) {
     this.subcription = this._service.getSearch()
@@ -29,6 +30,7 @@ export class ListImagesComponent implements OnDestroy {
     this.isLoading = true;
     this._service.getImages(search)
       .subscribe(data => {
+        data.length > 0 ? this.msg = '' :  this.msg = `No se encontraron imagenes por "${search}"`;
         this.listImages = data;
         this.isLoading = false;
       }, err => {

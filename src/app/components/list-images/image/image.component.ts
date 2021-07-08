@@ -8,10 +8,6 @@ import { ImageI } from 'src/app/model/image';
     .h-45 {
       height: 45%;
     }
-
-    .h-px-350 {
-      height: 300px;
-    }
   `]
 })
 export class ImageComponent implements OnInit {
