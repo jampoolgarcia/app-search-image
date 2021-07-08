@@ -3,16 +3,20 @@
     <div class="card-body">
       <div class="row my-5 mx-4">
         <div class="col-lg-12">
-          <form>
+          <form #form="ngForm" (submit)="onSubmit()">
             <div class="input-group">
               <input type="search"
                 class="form-control form-control-lg text-lg" 
                 name="search" 
                 id="search" 
-                aria-describedby="search" 
-                placeholder="Buscar imagen">
-                <button type="button"
-                 class="btn btn-primary btn-lg btn-block w-40 p-0 b-left-0">
+                [(ngModel)]="searchValue"
+                aria-describedby="search"
+                #search="ngModel" 
+                placeholder="Buscar imagen"
+                required>
+                <button type="submit"
+                 class="btn btn-primary btn-lg btn-block w-40 p-0 b-left-0"
+                 [disabled]="form.invalid">
                   Buscar
                 </button>
             </div>

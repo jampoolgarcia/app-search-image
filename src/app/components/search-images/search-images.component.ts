@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ImagesService } from 'src/app/services/images.service';
 
 @Component({
   selector: 'app-search-images',
@@ -23,11 +25,17 @@ import { Component, OnInit } from '@angular/core';
     }
   `]
 })
-export class SearchImagesComponent implements OnInit {
+export class SearchImagesComponent {
 
-  constructor() { }
+  public searchValue = '';
 
-  ngOnInit(): void {
+  constructor(public _service: ImagesService) { 
+
   }
+
+  onSubmit(){
+    this._service.setSearch(this.searchValue);
+  }
+
 
 }
