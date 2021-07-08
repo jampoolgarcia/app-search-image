@@ -14,11 +14,15 @@ const KEY = environment.key;
 export class ImagesService {
 
   public $search = new Subject<string>();
+  public page!: number;
+  public itemsPerPage!: number;
+  public totalPages!: number;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {
+    this.defaultData();
+  }
 
   setSearch(searchValue: string){
-    console.log(searchValue);
     this.$search.next(searchValue);
   }
 
@@ -27,16 +31,23 @@ export class ImagesService {
   }
 
   getImages(search: string): Observable<ImageI[]>{
-    const URL = `${URL_BASE}?key=${KEY}&q=${search}`;
+    const URL = `${URL_BASE}?key=${KEY}&q=${search}&page=${this.page}&per_page=${this.itemsPerPage}`;
     return this._http.get(URL)
       .pipe(
         map(data => this.parseData(data))
       )
   }
 
+  defaultData(){
+    this.page = 1;
+    this.itemsPerPage = 12;
+    this.totalPages = 1;
+  }
 
   parseData(data: any): ImageI[] {
     let list: ImageI[] = [];
+
+    this.totalPages = Math.ceil(data.totalHits / this.itemsPerPage);
 
     data.hits.forEach((img: any) => {
       list.push({

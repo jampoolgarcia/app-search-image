@@ -6,7 +6,11 @@ import { ImagesService } from 'src/app/services/images.service';
 @Component({
   selector: 'app-list-images',
   templateUrl: './list-images.component.html',
-  styles: []
+  styles: [`
+    a {
+      cursor: pointer;
+    }
+  `]
 })
 export class ListImagesComponent implements OnDestroy {
 
@@ -14,11 +18,13 @@ export class ListImagesComponent implements OnDestroy {
   public isLoading: boolean = false;
   public listImages: ImageI[] = [];
   public msg = '';
+  public search = '';
 
   constructor(private _service: ImagesService) {
     this.subcription = this._service.getSearch()
       .subscribe(data => {
-        this.getImagesList(data);
+        this.search = data;
+        this.getImagesList();
       });
   }
 
@@ -26,11 +32,11 @@ export class ListImagesComponent implements OnDestroy {
     this.subcription.unsubscribe();
   }
 
-  getImagesList(search: string){
+  getImagesList(){
     this.isLoading = true;
-    this._service.getImages(search)
+    this._service.getImages(this.search)
       .subscribe(data => {
-        data.length > 0 ? this.msg = '' :  this.msg = `No se encontraron imagenes por "${search}"`;
+        data.length > 0 ? this.msg = '' :  this.msg = `No se encontraron imagenes por "${this.search}"`;
         this.listImages = data;
         this.isLoading = false;
       }, err => {
@@ -38,6 +44,24 @@ export class ListImagesComponent implements OnDestroy {
         this.listImages = [];
         this.isLoading = false;
       })
+  }
+
+  get isPrevious(): boolean {
+    return this._service.page <= 1;
+  }
+
+  get isNext(): boolean {
+    return this._service.page >= this._service.totalPages;
+  }
+
+  onNext(){
+    this._service.page++;
+    this.getImagesList();
+  }
+
+  onPrevious(){
+    this._service.page--;
+    this.getImagesList();
   }
 
 }

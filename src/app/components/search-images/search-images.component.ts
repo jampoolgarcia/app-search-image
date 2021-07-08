@@ -34,6 +34,7 @@ export class SearchImagesComponent {
   }
 
   onSubmit(){
+    this._service.defaultData();
     this._service.setSearch(this.searchValue);
   }
 

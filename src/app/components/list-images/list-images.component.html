@@ -3,6 +3,17 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
       <app-image *ngFor="let image of listImages" [image]="image" class="mb-4"></app-image>
     </div>
+
+    <div *ngIf="!(isPrevious && isNext)" class="d-flex justify-content-center">
+      <ul class="pagination pagination-lg">
+        <li [ngClass]="{'disabled': isPrevious }" class="page-item">
+          <a class="page-link" (click)="onPrevious()">&laquo;Anterior</a>
+        </li>
+        <li [ngClass]="{'disabled': isNext }" class="page-item">
+          <a class="page-link" (click)="onNext()">Siguiente&raquo;</a>
+        </li>
+      </ul>
+    </div>
   </ng-container>
 </ng-container>
 <ng-template #spinner>
