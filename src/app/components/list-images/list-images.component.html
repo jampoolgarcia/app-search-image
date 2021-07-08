@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isLoading; else spinner">
   <div class="row row-cols-1 row-cols-md-4 g-4">
-    <app-image class="mb-4 h-100"></app-image>
+    <app-image *ngFor="let image of listImages" [image]="image" class="mb-4"></app-image>
   </div>
 </ng-container>
 <ng-template #spinner>
