@@ -16,6 +16,7 @@ export class ImagesService {
   constructor(private _http: HttpClient) { }
 
   setSearch(searchValue: string){
+    console.log(searchValue);
     this.$search.next(searchValue);
   }
 
@@ -23,10 +24,12 @@ export class ImagesService {
     return this.$search.asObservable();
   }
 
-  getImages(search: string){
+  getImages(search: string): Observable<any>{
     const URL = `${URL_BASE}?key=${KEY}&q=${search}`;
-    this._http.get(URL);
+    return this._http.get(URL);
   }
+
+  
 
 
 }
