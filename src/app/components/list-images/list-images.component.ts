@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ImageI } from 'src/app/model/image';
 import { ImagesService } from 'src/app/services/images.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class ListImagesComponent implements OnDestroy {
 
   public subcription = new Subscription();
   public isLoading: boolean = false;
+  public listImages: ImageI[] = [];
 
   constructor(private _service: ImagesService) {
     this.subcription = this._service.getSearch()
@@ -24,14 +26,14 @@ export class ListImagesComponent implements OnDestroy {
   }
 
   getImagesList(search: string){
-    console.log('getImageList')
     this.isLoading = true;
     this._service.getImages(search)
       .subscribe(data => {
-        console.log(data);
+        this.listImages = data;
         this.isLoading = false;
       }, err => {
         console.log(err);
+        this.listImages = [];
         this.isLoading = false;
       })
   }
